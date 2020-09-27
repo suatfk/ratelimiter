@@ -1,0 +1,28 @@
+The goal of this challenge is to implement rate limiting while accessing API
+endpoints.
+
+It is common for API servers to restrict incoming HTTP requests to a rate so
+that their resources are not overloaded and also to ensure fairness to all of
+their clients.  This means that unless our client library handles rate limiting
+on, the requests get timed-out at the API endpoint.
+
+In this challenge, your task is to implement rate limiting such that the
+IpityTest test case passes.  This test case can be found at
+`src/test/java/com/maltego/ipify/IpifyTest.java`
+
+The project is setup using Retrofit2 framework for accessing HTTP API Endpoints
+using JSON protocol.  The testcase uses a mock webserver to simulate an API
+endpoint.  It fails if the requests rate is more than 4 requests/second.
+
+Retrofit allows chaining interceptors which act on the requests. We use this
+functionality to implement ratelimiting by having a RatelimitingInterceptor
+class. This class should only allow the request to proceed if the number of
+requests is below the set rate limit.
+
+Your task is to implement the FIXMEs in
+`src/main/java/com/maltego/helpers/RatelimitingInterceptor.java` in such a way
+that the above testcase passes.
+
+Do not use any 3rd-party libraries and limit the development to classes offereed
+by the JDK only.
+
