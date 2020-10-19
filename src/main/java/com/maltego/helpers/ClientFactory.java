@@ -20,7 +20,7 @@ public class ClientFactory {
   static {
     CLIENT = new OkHttpClient.Builder()
         .addInterceptor(RequestInterceptor.create())
-        .addInterceptor(RatelimitingInterceptor.create(4, 1, TimeUnit.SECONDS))
+        .addInterceptor(RatelimitingInterceptor.create(4))
         .build();
   }
 

@@ -62,12 +62,10 @@ public class RatelimitingInterceptor implements Interceptor {
   /**
    * Creates a ratelimiting interceptor object
    *
-   * @param requests the number of requests to be allowed
-   * @param delay the time in which the requests are allowed
-   * @param delayUnit the time unit of the delay parameter
+   * @param maxRequestPerSec the number of requests to be allowed in second
    * @return a RatelimitingInterceptor object
    */
-  public static RatelimitingInterceptor create(int requests, long delay, TimeUnit delayUnit) {
-    return new RatelimitingInterceptor(RateLimiter.from(requests, delay, delayUnit));
+  public static RatelimitingInterceptor create(int maxRequestPerSec) {
+    return new RatelimitingInterceptor(RateLimiter.from(maxRequestPerSec));
   }
 }

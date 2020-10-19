@@ -13,7 +13,7 @@ public class RateLimiterTest {
 
     @Test
     public void givenPermitsAndDelay_whenPeriodFinished_shouldClearSemaphore() throws InterruptedException {
-        RateLimiter rateLimiter = RateLimiter.from(4, 1, TimeUnit.SECONDS);
+        RateLimiter rateLimiter = RateLimiter.from(4, 100, TimeUnit.MILLISECONDS);
         for (int i = 0; i < 5; i++){
             if (rateLimiter.tryAcquire()){
                 log.info("work");

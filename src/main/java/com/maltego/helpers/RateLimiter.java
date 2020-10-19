@@ -14,8 +14,8 @@ public class RateLimiter {
 
     private long maxRequestPerSec;
 
-    public static RateLimiter from(int requests, long delay, TimeUnit delayUnit) {
-        return new RateLimiter(requests / delayUnit.toSeconds(delay));
+    public static RateLimiter from(int maxRequestPerSec) {
+        return new RateLimiter(maxRequestPerSec);
     }
 
     private RateLimiter(long maxRequestPerSec) {
