@@ -13,57 +13,19 @@ public class RateLimiterTest {
 
     @Test
     public void givenPermitsAndDelay_whenPeriodFinished_shouldClearSemaphore() throws InterruptedException {
-        MockRateLimiter rateLimiter = new MockRateLimiter(4, 1, TimeUnit.SECONDS);
+        RateLimiter rateLimiter = RateLimiter.from(4, 1, TimeUnit.SECONDS);
+        for (int i = 0; i < 5; i++){
+            if (rateLimiter.tryAcquire()){
+                log.info("work");
+            }
+        }
 
-        TimeUnit.MILLISECONDS.sleep(2500);
-
-        assertEquals(2, rateLimiter.clearSemaphoreCount);
-        assertEquals(4, rateLimiter.getAvailablePermits());
-    }
-
-    @Test
-    public void givenPermitsAndDelay_whenTryAcquire_shouldAcquirePermits() throws InterruptedException {
-        MockRateLimiter rateLimiter = new MockRateLimiter(4, 1, TimeUnit.SECONDS);
-        rateLimiter.tryAcquire();
-        TimeUnit.MILLISECONDS.sleep(200);
-        rateLimiter.tryAcquire();
-        TimeUnit.MILLISECONDS.sleep(200);
-        rateLimiter.tryAcquire();
-
-        assertEquals(1, rateLimiter.getAvailablePermits());
-        assertEquals(3, rateLimiter.tryAcquireCount);
-    }
-
-    @Test
-    public void givenMaxPermitsAndDelay_whenAllPermitsAcquired_thenNoAvailablePermits() throws InterruptedException {
-        MockRateLimiter rateLimiter = new MockRateLimiter(4, 1, TimeUnit.SECONDS);
-        rateLimiter.tryAcquire();
-        TimeUnit.MILLISECONDS.sleep(100);
-        rateLimiter.tryAcquire();
-        TimeUnit.MILLISECONDS.sleep(100);
-        rateLimiter.tryAcquire();
-        TimeUnit.MILLISECONDS.sleep(100);
-        rateLimiter.tryAcquire();
-
-        assertFalse(rateLimiter.tryAcquire());
-        assertEquals(5, rateLimiter.tryAcquireCount);
-        assertEquals(0, rateLimiter.getAvailablePermits());
+        TimeUnit.SECONDS.sleep(1);
+        for (int i = 0; i < 5; i++){
+            if (rateLimiter.tryAcquire()){
+                log.info("work");
+            }
+        }
 
     }
-
-    @Test
-    public void givenMaxPermitsAndDelay_whenAcquiredPermits_shouldReleaseAfterPeriod() throws InterruptedException {
-        MockRateLimiter rateLimiter = new MockRateLimiter(4, 1, TimeUnit.SECONDS);
-        rateLimiter.tryAcquire();
-        TimeUnit.MILLISECONDS.sleep(200);
-        rateLimiter.tryAcquire();
-        TimeUnit.MILLISECONDS.sleep(200);
-        rateLimiter.tryAcquire();
-
-        TimeUnit.MILLISECONDS.sleep(600);
-        assertEquals(1, rateLimiter.clearSemaphoreCount);
-        assertEquals(3, rateLimiter.tryAcquireCount);
-        assertEquals(4, rateLimiter.getAvailablePermits());
-    }
-
 }
